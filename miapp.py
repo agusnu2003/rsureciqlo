@@ -25,9 +25,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Título de la aplicación
-st.title('Análisis de Datos con Colores Verdes')
-
 # Cargar datos CSV
 uploaded_file = st.file_uploader('Sube tu archivo CSV', type='csv')
 if uploaded_file is not None:
@@ -42,22 +39,17 @@ if uploaded_file is not None:
 
     df.dropna(subset=['Fecha de escaneo o entrega'], inplace=True)
 
-    # Agregar columna para el día de la semana
     df['Día de la semana'] = df['Fecha de escaneo o entrega'].dt.day_name()
 
-    # Agrupar por día de la semana y sumar la cantidad
     cantidad_por_dia = df.groupby('Día de la semana')['Cantidad'].sum().reindex(
         ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     )
 
-    # Gráfico de cantidad por día de la semana
-    st.subheader('Cantidad por Día de la Semana')
     plt.figure(figsize=(12, 6))
     sns.barplot(x=cantidad_por_dia.index, y=cantidad_por_dia.values, palette='Greens')
     plt.title('Cantidad por Día de la Semana')
     plt.xlabel('Día de la Semana')
     plt.ylabel('Cantidad')
-    plt.xticks(rotation=45)
     st.pyplot(plt)
 
     # Convertir 'Fecha de escaneo o entrega' a datetime con el formato correcto
@@ -66,12 +58,9 @@ if uploaded_file is not None:
     df['Año'] = df['Fecha de escaneo o entrega'].dt.year
     df['Mes'] = df['Fecha de escaneo o entrega'].dt.month
 
-    # Filtrar para los años 2023 y 2024
     df_filtered = df[df['Año'].isin([2023, 2024])]
     cantidad_por_mes_anio = df_filtered.groupby(['Año', 'Mes'])['Cantidad'].sum().unstack(fill_value=0)
 
-    # Gráfico de cantidad por mes en 2023
-    st.subheader('Cantidad por Mes en 2023')
     plt.figure(figsize=(12, 6))
     plt.bar(cantidad_por_mes_anio.columns, cantidad_por_mes_anio.loc[2023], color='#66bb6a')
     plt.title('Cantidad por Mes en 2023')
@@ -81,8 +70,6 @@ if uploaded_file is not None:
     plt.tight_layout()
     st.pyplot(plt)
 
-    # Gráfico de cantidad por mes en 2024
-    st.subheader('Cantidad por Mes en 2024')
     plt.figure(figsize=(12, 6))
     plt.bar(cantidad_por_mes_anio.columns, cantidad_por_mes_anio.loc[2024], color='#388e3c')
     plt.title('Cantidad por Mes en 2024')
