@@ -79,3 +79,15 @@ if uploaded_file is not None:
     plt.xticks(ticks=range(1, 13), labels=['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'], rotation=45)
     plt.tight_layout()
     st.pyplot(plt)
+
+ st.subheader('Top 11 de los que más recolectaron')
+    top_11 = df.groupby('Recolector')['Cantidad'].sum().nlargest(11).reset_index()
+    st.write(top_11)
+
+    # Gráfico de top 11 recolectores
+    plt.figure(figsize=(12, 6))
+    sns.barplot(x='Cantidad', y='Recolector', data=top_11, palette='Greens')
+    plt.title('Top 11 de los que más recolectaron')
+    plt.xlabel('Cantidad')
+    plt.ylabel('Recolector')
+    st.pyplot(plt)
