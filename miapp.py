@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 
 # CSS personalizado para colores verdes
+st.set_page_config(page_title="Análisis de Datos Verdes", page_icon=":chart_with_upwards_trend:")
 st.markdown("""
     <style>
     .main {
